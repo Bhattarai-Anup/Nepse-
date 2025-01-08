@@ -7,23 +7,23 @@ import * as Yup from 'yup';
 import axios from 'axios';
 
 const Register = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);  // State to toggle password visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const userSchema = Yup.object().shape({
     fullName: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
-      .required('*'),
+      .required('Full name is required'),
     password: Yup.string()
       .min(6, 'Password too short!')
       .max(50, 'Password too long!')
-      .required('*'),
+      .required('Password is required'),
     phoneNumber: Yup.string()
       .matches(/^[0-9]+$/, 'Phone number must contain only digits')
       .min(10, 'Invalid phone number')
-      .required('*'),
-    email: Yup.string().email('Invalid email').required('*'),
-    gender: Yup.string().oneOf(['Male', 'Female', 'Other'], 'Invalid gender').required('*'),
+      .required('Phone number is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    gender: Yup.string().oneOf(['Male', 'Female', 'Other'], 'Invalid gender').required('Gender is required'),
   });
 
   const formik = useFormik({
@@ -43,7 +43,7 @@ const Register = () => {
   const handleRegister = async (values) => {
     try {
       const { data } = await axios.post('http://localhost:9000/register', values);
-      alert(data); // Show response message
+      alert(data);
     } catch (error) {
       console.error(error);
       alert('An error occurred during registration.');
@@ -51,18 +51,21 @@ const Register = () => {
   };
 
   return (
-    <div className='flex justify-center items-center bg-gradient-to-r from-green-500 to-red-500 min-h-screen'>
-      <div className='bg-white rounded-xl p-8 w-full max-w-4xl shadow-xl'>
+    <div className='flex justify-center items-center bg-gradient-to-r from-green-500 to-red-500 min-h-screen px-4'>
+      <div className='bg-white rounded-xl p-8 w-full max-w-md sm:max-w-2xl md:max-w-4xl shadow-xl'>
         <div className='flex justify-center mb-6'>
-          <img
-            src="https://www.canva.com/design/DAGZ1JnQAsE/bDQO8RZs3RY0Aa8qv-nxJQ/edit?utm_content=DAGZ1JnQAsE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
-            alt="Nepse+ Logo"
-            width={170}
-            height={60}
-            className="transition-all duration-500 transform hover:scale-110 rounded-md shadow-xl"
+          <img 
+            src="https://raw.githubusercontent.com/Bhattarai-Anup/Nepseplus/main/Where%20Data%20Meets%20Profits!%20(1).png" 
+            alt="NEPSE+ Logo" 
+            className="transition-all duration-500 transform hover:scale-110 border-0 outline-0 w-72 h-auto" 
           />
         </div>
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6 tracking-wide">Create Your Account</h1>
+        <h1 className="text-4xl font-bold text-center text-gray-800 mb-6 tracking-wide uppercase transform transition duration-300 hover:text-blue-500">
+  Create Your Account
+</h1>
+
+
+        {/* Registration Form */}
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-6">
             {/* Full Name */}
@@ -120,7 +123,7 @@ const Register = () => {
                 <Input
                   id="password"
                   name="password"
-                  type={passwordVisible ? 'text' : 'password'}  // Toggle password visibility
+                  type={passwordVisible ? 'text' : 'password'}
                   onChange={formik.handleChange}
                   value={formik.values.password}
                   placeholder="Enter your password"

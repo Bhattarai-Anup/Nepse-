@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const router = useRouter(); // Use Next.js router for navigation
 
   const userSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('*'),
@@ -33,9 +35,8 @@ const Login = () => {
       // Send email and password to backend for validation
       const { data } = await axios.post('http://localhost:9000/signin', values);
       if (data.success) {
-        // Redirect to home or dashboard upon successful login
         alert('Login successful!');
-        window.location.href = '/home'; // Example: Redirect to home page
+        router.push('/home'); // Redirect to the home page
       } else {
         alert('Invalid email or password');
       }
@@ -49,13 +50,15 @@ const Login = () => {
     <div className='flex justify-center items-center bg-gradient-to-r from-green-500 to-red-500 min-h-screen'>
       <div className='bg-white rounded-xl p-8 w-full max-w-lg shadow-lg'>
         <div className='flex justify-center mb-6'>
-          {/* NEPSE+ Logo with Larger Size */}
-          <img
-            src="https://www.canva.com/design/DAGZ1JnQAsE/bDQO8RZs3RY0Aa8qv-nxJQ/edit?utm_content=DAGZ1JnQAsE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"  // Direct raw URL of the image
-            alt="NEPSE+ Logo"
-            width={200}  // Increased logo width
-            height={200} // Increased logo height
+          <video
+            src="https://raw.githubusercontent.com/Bhattarai-Anup/Nepseplus/main/Where%20Data%20Meets%20Profits!.mp4"
+            autoPlay
+            loop
+            muted
+            width="100%"
+            height="auto"
             className="transition-all duration-500 transform hover:scale-110"
+            alt="NEPSE+ Logo"
           />
         </div>
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6 tracking-wide">Log In</h1>
@@ -72,7 +75,7 @@ const Login = () => {
                 value={formik.values.email}
                 placeholder="Enter your email or phone"
                 status={formik.errors.email ? 'error' : 'default'}
-                className="rounded-xl shadow-lg border-2 p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 text-black" // Added text-black class
+                className="rounded-xl shadow-lg border-2 p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 text-black"
               />
               {formik.errors.email && <div className="text-red-600 text-sm">{formik.errors.email}</div>}
             </div>
@@ -84,17 +87,17 @@ const Login = () => {
                 <Input
                   id="password"
                   name="password"
-                  type={passwordVisible ? 'text' : 'password'}  // Toggle between password and text
+                  type={passwordVisible ? 'text' : 'password'}
                   onChange={formik.handleChange}
                   value={formik.values.password}
                   placeholder="Enter your password"
                   status={formik.errors.password ? 'error' : 'default'}
-                  className="rounded-xl shadow-lg border-2 p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 text-black" // Added text-black class
+                  className="rounded-xl shadow-lg border-2 p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 text-black"
                 />
                 {/* Toggle visibility button */}
-                <button 
-                  type="button" 
-                  onClick={() => setPasswordVisible(!passwordVisible)} 
+                <button
+                  type="button"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                 >
                   {passwordVisible ? 'Hide' : 'Show'}
@@ -104,8 +107,8 @@ const Login = () => {
             </div>
 
             {/* Submit Button */}
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full mt-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105"
             >
               LOG IN
